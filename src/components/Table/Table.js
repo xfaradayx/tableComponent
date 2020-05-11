@@ -5,11 +5,6 @@ import dataStoreContext from '../../context/dataStore/dataStoreContext';
 
 export default function Table({headerItems, bodyItems, setSortByField}) {
     const [lastTouched, setLastTouched] = useState(null);
-    
-    // const checkSecondClick = () {
-
-    // }
-    
     const bodyRows = bodyItems.map( (item, indx) => {
         return (
             <tr className={classes.tableRow}>

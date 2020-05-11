@@ -4,7 +4,7 @@ import Table from '../../components/Table/Table';
 
 export default function Main(props) {
     const apiUrl = 'http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}';
-    const { items, setItems, sortBy } = useContext(dataStoreContext);
+    const { items, setItems, sortDesc, sortAsc } = useContext(dataStoreContext);
     const [sortByField, setSortByField] = useState(null);
 
     useEffect(() => {
@@ -16,7 +16,7 @@ export default function Main(props) {
     }, []);
 
     useEffect(() => {
-        sortByField && sortBy(sortByField);
+        sortByField && sortAsc(sortByField);
     }, [sortByField]);
 
     const headerItems = Object.keys(items[0]).filter(key => key !== 'address' && key !== 'description');
