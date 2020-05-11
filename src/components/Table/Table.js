@@ -3,8 +3,9 @@ import TableHeader from '../TableHeader/TableHeader';
 import classes from './style.module.scss';
 import dataStoreContext from '../../context/dataStore/dataStoreContext';
 
-export default function Table({headerItems, bodyItems, setSortByField}) {
+export default function Table({headerItems, bodyItems, setSortByField, sortByField}) {
     const [lastTouched, setLastTouched] = useState(null);
+        
     const bodyRows = bodyItems.map( (item, indx) => {
         return (
             <tr className={classes.tableRow}>
@@ -27,6 +28,7 @@ export default function Table({headerItems, bodyItems, setSortByField}) {
                 setSortByField={setSortByField}
                 setLastTouched={setLastTouched}
                 lastTouched={lastTouched}
+                sortByField={sortByField}
             />
             <tbody>
                     {bodyRows}
