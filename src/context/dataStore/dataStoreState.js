@@ -4,19 +4,22 @@ import dataStoreReducer from './dataStoreReducer';
 
 export default function DataStoreState({children}) {
     const initialState = {
-        items: []
+        items: [{}]
     }
-    const [state, dispatch] = useReducer(dataStoreReducer, initialState);
+    const [{items}, dispatch] = useReducer(dataStoreReducer, initialState);
     
-    const setItems = items => {
-         dispatch({type: 'SET_ITEMS', payload: items})
+    const setItems = newItems => {
+         dispatch({type: 'SET_ITEMS', newItems})
+    }
+
+    const sortBy = field => {
+        dispatch({type: 'SORT_BY', field})
     }
     
-    console.log(state);
     
     return (
         <DataStoreContext.Provider value={{
-            state, setItems
+            items, setItems, sortBy
         }}>
             {children}
         </DataStoreContext.Provider>

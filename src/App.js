@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import './App.css';
+import classes from  './App.module.scss';
 import Main from './pages/Main/Main';
 import DataStoreState from './context/dataStore/dataStoreState';
 
 function App() {
     return (
-        <div className="App">
+        <div className={classes.app}>
             <DataStoreState>
                 <Main />
             </DataStoreState>
