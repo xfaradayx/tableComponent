@@ -32,7 +32,7 @@ export default function Main(props) {
 
     return (
         <>
-            {isLoading && <Spinner />}
+
             <Table 
                 headerItems={headerItems}
                 bodyItems={bodyItems}
