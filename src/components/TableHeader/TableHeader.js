@@ -18,7 +18,7 @@ export default function TableHeader( {items, setSortByField, setLastTouched, las
                 }
                 
             }
-            }><span>{item}</span>{sortByField.field === item && (sortByField.type === 'asc' && <span>&uarr;</span>) || sortByField.field == item && (sortByField.type === 'desc' && <span>&darr;</span>)}</th>
+            }><span>{item}</span>{sortByField.field === item && (sortByField.type === 'asc' && <div className={classes.sortArrow}>&uarr;</div>) || sortByField.field == item && (sortByField.type === 'desc' && <div className={classes.sortArrow}>&darr;</div>)}</th>
         )
     })
     
