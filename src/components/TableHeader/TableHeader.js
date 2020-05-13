@@ -1,15 +1,15 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import classes from './style.module.scss'
 
 export default function TableHeader( {items, setSortByField, setLastTouched, lastTouched, sortByField} ) {   
     const header = items.map(item => {       
         return (
-            <th className={classes.cell} onClick={(e) => {
+            <th key={uuid()} className={classes.cell} onClick={(e) => {
                 if (e.target.nodeName !== 'SPAN') return;
 
                 const clickTarget = e.target.innerHTML;
-                console.log(clickTarget);
-                
+                                
                 if (lastTouched === clickTarget) {
                     setSortByField({field: clickTarget, type: 'desc'})                    
                 } else {    
@@ -18,7 +18,7 @@ export default function TableHeader( {items, setSortByField, setLastTouched, las
                 }
                 
             }
-            }><span>{item}</span>{sortByField.field == item && (sortByField.type === 'asc' && <span>&uarr;</span>) || sortByField.field == item && (sortByField.type === 'desc' && <span>&darr;</span>)}</th>
+            }><span>{item}</span>{sortByField.field === item && (sortByField.type === 'asc' && <span>&uarr;</span>) || sortByField.field == item && (sortByField.type === 'desc' && <span>&darr;</span>)}</th>
         )
     })
     
