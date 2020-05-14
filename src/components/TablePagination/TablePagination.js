@@ -5,7 +5,6 @@ import classes from './style.module.scss';
 
 export default function TablePagination({qty, currPage, setCurrPage}) {
     const qnt = [...Array(qty).keys()].map(num => num + 1);
-    let className = null;
 
     return (
         <div className={classes.tablePagination}>
@@ -13,6 +12,7 @@ export default function TablePagination({qty, currPage, setCurrPage}) {
                 qnt.map(page=> {
                     return (
                         <span 
+                            key={uuid()}
                             className={clsx(classes.page, page === currPage && classes.selected)} 
                             onClick={e => setCurrPage(page)}
                         >

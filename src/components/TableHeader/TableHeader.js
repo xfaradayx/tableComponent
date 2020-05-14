@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import classes from './style.module.scss'
 
-export default function TableHeader( {items, setSortByField, setLastTouched, lastTouched, sortByField} ) {   
+export default function TableHeader( {items, setSortByField, sortByField} ) {   
+    const [lastTouched, setLastTouched] = useState(null);
+
     const header = items.map(item => {       
         return (
             <th key={uuid()} className={classes.cell} onClick={(e) => {
@@ -15,8 +17,7 @@ export default function TableHeader( {items, setSortByField, setLastTouched, las
                 } else {    
                     setLastTouched(clickTarget);
                     setSortByField({field: clickTarget, type: 'asc'});
-                }
-                
+                } 
             }
             }><span>{item}</span>{sortByField.field === item && (sortByField.type === 'asc' && <div className={classes.sortArrow}>&uarr;</div>) || sortByField.field == item && (sortByField.type === 'desc' && <div className={classes.sortArrow}>&darr;</div>)}</th>
         )

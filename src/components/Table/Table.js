@@ -1,20 +1,25 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
+import { useSort } from '../../hooks/hooks';
 import TableHeader from '../TableHeader/TableHeader';
 import classes from './style.module.scss';
-import dataStoreContext from '../../context/dataStore/dataStoreContext';
 import TablePagination from '../TablePagination/TablePagination';
 
 
-export default function Table({headerItems, bodyItems, rowsPerPage, setSortByField, sortByField}) {
+export default function Table({headerItems, bodyItems, rowsPerPage}) {    
     const [currPage, setCurrPage] = useState(1);
-    const pageQty = bodyItems.length / rowsPerPage;
-    
-    bodyItems = bodyItems.splice(rowsPerPage * (currPage - 1), rowsPerPage);
-    
-    const [lastTouched, setLastTouched] = useState(null);
-    const bodyRows = bodyItems.map( item => {
-        return (
+    const [sortByField, setSortByField] = useState({});
+    const pages = Math.ceil(bodyItems.length/rowsPerPage);
+    const sort = useSort();
+
+    let body = [...bodyItems].splice(rowsPerPage * (currPage - 1), rowsPerPage);  
+
+    if (sortByField.field) {
+        sort(bodyItems, sortByField.field, sortByField.type)
+    }
+
+    const bodyRows = body.map( item => {
+        return (            
             <tr key={uuid()} className={classes.tableRow}  >
                 {
                     Object.values(item).map(innerItem => {
@@ -29,15 +34,13 @@ export default function Table({headerItems, bodyItems, rowsPerPage, setSortByFie
             </tr>
         )
     })
-
+    
     return (
         <>
             <table className={classes.table}>
                 <TableHeader 
                     items={headerItems}
                     setSortByField={setSortByField}
-                    setLastTouched={setLastTouched}
-                    lastTouched={lastTouched}
                     sortByField={sortByField}
                 />
                 <tbody>
@@ -45,7 +48,7 @@ export default function Table({headerItems, bodyItems, rowsPerPage, setSortByFie
                 </tbody>
             </table>
             <TablePagination 
-                qty={pageQty}
+                qty={pages}
                 currPage={currPage}
                 setCurrPage={setCurrPage}
             />
