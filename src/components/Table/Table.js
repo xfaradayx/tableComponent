@@ -5,7 +5,6 @@ import TableHeader from '../TableHeader/TableHeader';
 import classes from './style.module.scss';
 import TablePagination from '../TablePagination/TablePagination';
 
-
 export default function Table({headerItems, bodyItems, rowsPerPage}) {    
     const [currPage, setCurrPage] = useState(1);
     const [sortByField, setSortByField] = useState({});

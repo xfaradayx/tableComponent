@@ -20,10 +20,10 @@ export default function Main(props) {
 
     const headerItems = Object.keys(items[0]).filter(key => key !== 'address' && key !== 'description');
     const bodyItems = items.map(item => ({...item, description: null, address: null}));
-
+    
+    if (isLoading) return (<Spinner />);
     return (
         <>
-            {isLoading && <Spinner />}
             <Table 
                 headerItems={headerItems}
                 bodyItems={bodyItems}
