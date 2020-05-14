@@ -4,27 +4,43 @@ import { useSort } from '../../hooks/hooks';
 import TableHeader from '../TableHeader/TableHeader';
 import classes from './style.module.scss';
 import TablePagination from '../TablePagination/TablePagination';
+import TableFilter from '../TableFilter/TableFilter';
+
 
 export default function Table({headerItems, bodyItems, rowsPerPage}) {    
     const [currPage, setCurrPage] = useState(1);
     const [sortByField, setSortByField] = useState({});
-    const pages = Math.ceil(bodyItems.length/rowsPerPage);
+    const [filter, setFilter] = useState();
+    
     const sort = useSort();
-
-    let body = [...bodyItems].splice(rowsPerPage * (currPage - 1), rowsPerPage);  
+    
+    window.bodyItems = bodyItems;
+    if (filter) {
+        bodyItems = bodyItems.filter( (item, ind) => {
+            for (let key of Object.values(item)) {
+                if (String(key).trim().includes(filter)) {
+                    return item;
+                }
+            }
+         })
+    }
+    
+    const pages = Math.ceil(bodyItems.length/rowsPerPage);
 
     if (sortByField.field) {
         sort(bodyItems, sortByField.field, sortByField.type)
     }
 
+    let body = [...bodyItems].splice(rowsPerPage * (currPage - 1), rowsPerPage); 
+
     const bodyRows = body.map( item => {
         return (            
-            <tr key={uuid()} className={classes.tableRow}  >
+            <tr key={uuid()} className={classes.table__row}  >
                 {
                     Object.values(item).map(innerItem => {
                         return (
                             innerItem != null &&
-                            <td key={uuid()} className={classes.tableCell}>
+                            <td key={uuid()} className={classes.table__cell}>
                                 {innerItem}
                             </td>
                         )
@@ -35,7 +51,8 @@ export default function Table({headerItems, bodyItems, rowsPerPage}) {
     })
     
     return (
-        <>
+        <div className={classes.table__wrapper}>
+            <TableFilter setFilter={setFilter}/>
             <table className={classes.table}>
                 <TableHeader 
                     items={headerItems}
@@ -51,6 +68,6 @@ export default function Table({headerItems, bodyItems, rowsPerPage}) {
                 currPage={currPage}
                 setCurrPage={setCurrPage}
             />
-        </>
+        </div>
     );
 };
