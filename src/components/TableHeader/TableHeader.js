@@ -13,7 +13,7 @@ export default function TableHeader( {items, setSortByField, sortByField} ) {
                 const clickTarget = e.target.innerHTML;
                                 
                 if (lastTouched === clickTarget) {
-                    setSortByField({field: clickTarget, type: 'desc'})                    
+                    setSortByField( prev =>  ({field: clickTarget, type: prev.type === 'desc' ? 'asc' : 'desc'}))                    
                 } else {    
                     setLastTouched(clickTarget);
                     setSortByField({field: clickTarget, type: 'asc'});
