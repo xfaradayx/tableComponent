@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useSort } from '../../hooks/hooks';
 import TableHeader from '../TableHeader/TableHeader';
@@ -13,16 +13,15 @@ export default function Table({headerItems, bodyItems, rowsPerPage}) {
     const [filter, setFilter] = useState();
     
     const sort = useSort();
-    
-    window.bodyItems = bodyItems;
+
     if (filter) {
-        bodyItems = bodyItems.filter( (item, ind) => {
+        bodyItems = bodyItems.filter( item => {
             for (let key of Object.values(item)) {
-                if (String(key).trim().includes(filter)) {
+                if (String(key).toLowerCase().includes(filter.toLowerCase())) {
                     return item;
                 }
             }
-         })
+        })
     }
     
     const pages = Math.ceil(bodyItems.length/rowsPerPage);
@@ -33,17 +32,19 @@ export default function Table({headerItems, bodyItems, rowsPerPage}) {
 
     let body = [...bodyItems].splice(rowsPerPage * (currPage - 1), rowsPerPage); 
 
+    const hash = headerItems.join(':');
     const bodyRows = body.map( item => {
         return (            
             <tr key={uuid()} className={classes.table__row}  >
                 {
-                    Object.values(item).map(innerItem => {
-                        return (
-                            innerItem != null &&
-                            <td key={uuid()} className={classes.table__cell}>
-                                {innerItem}
-                            </td>
-                        )
+                    Object.entries(item).map( ([key, value]) => {
+                        if (hash.includes(key)) {
+                            return (
+                                <td key={uuid()} className={classes.table__cell}>
+                                    {value}
+                                </td>
+                            )
+                        }
                     })
                 }
             </tr>

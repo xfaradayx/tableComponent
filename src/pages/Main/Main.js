@@ -20,7 +20,8 @@ export default function Main(props) {
 
     const headerItems = Object.keys(items[0]).filter(key => key !== 'address' && key !== 'description');
     const bodyItems = items.map(item => ({...item, description: null, address: null}));
-    
+    window.headerItems = headerItems;
+    window.bodyItems = bodyItems;
     if (isLoading) return (<Spinner />);
     return (
         <>
