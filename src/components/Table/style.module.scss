@@ -6,9 +6,18 @@
         .table__row {
 
         }
+
+        .table__row--selected {
+            background-color: lightsalmon;    
+        }
         
         .table__cell {
             border: 1px solid black;
         }
+    }
+
+    tbody tr:hover {
+        background-color: lightsalmon;        
+        cursor: pointer;
     }
 }

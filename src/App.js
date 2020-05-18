@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import classes from  './App.module.scss';
 import Main from './pages/Main/Main';
 import DataStoreState from './context/dataStore/dataStoreState';

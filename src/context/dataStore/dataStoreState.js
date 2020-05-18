@@ -11,18 +11,10 @@ export default function DataStoreState({children}) {
     const setItems = newItems => {
          dispatch({type: 'SET_ITEMS', newItems})
     }
-
-    const sortAsc = field => {
-        dispatch({type: 'SORT_ASC', field})
-    }
-    
-    const sortDesc = field => {
-        dispatch({type: 'SORT_DESC', field})
-    }
     
     return (
         <DataStoreContext.Provider value={{
-            items, setItems, sortAsc, sortDesc
+            items, setItems
         }}>
             {children}
         </DataStoreContext.Provider>
