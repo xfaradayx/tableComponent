@@ -1,23 +1,26 @@
 .table__wrapper{
-    
-    .table {
-        border-collapse: collapse;
+    margin-top: 20px;
 
-        .table__row {
+        .table__wrapper__inner {
+            display: flex;
 
-        }
-
-        .table__row--selected {
-            background-color: lightsalmon;    
-        }
+                .table {
+                    border-collapse: collapse;
+                    flex-grow: 1;
+                    margin-right: 20px;
         
-        .table__cell {
-            border: 1px solid black;
+                    .table__row--selected {
+                        background-color: lightsalmon;    
+                    }
+                    
+                    .table__cell {
+                        border: 1px solid black;
+                    }
+                }
         }
-    }
 
-    tbody tr:hover {
-        background-color: lightsalmon;        
-        cursor: pointer;
-    }
+        tbody tr:hover {
+            background-color: lightsalmon;        
+            cursor: pointer;
+        }
 }

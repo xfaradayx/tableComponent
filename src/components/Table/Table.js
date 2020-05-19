@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { v4 as uuid } from 'uuid';
-import clsx from 'clsx';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSort } from '../../hooks/hooks';
 import TableHeader from '../TableHeader/TableHeader';
 import classes from './style.module.scss';
 import TablePagination from '../TablePagination/TablePagination';
 import TableFilter from '../TableFilter/TableFilter';
 import TableDetails from '../TableDetails/TableDetails';
+import TableBody from '../TableBody/TableBody';
 
 
 export default function Table({headerItems, bodyItems, rowsPerPage}) {    
@@ -14,9 +13,11 @@ export default function Table({headerItems, bodyItems, rowsPerPage}) {
     const [sortByField, setSortByField] = useState({});
     const [filter, setFilter] = useState();
     const [selectedRow, setSelectedRow] = useState();
-    
+    const wrapperRef = useRef(null);
     const sort = useSort();
 
+    console.log(wrapperRef);
+    
     if (filter) {
         bodyItems = bodyItems.filter( item => {
             for (let key of Object.values(item)) {
@@ -40,12 +41,16 @@ export default function Table({headerItems, bodyItems, rowsPerPage}) {
 
     if (selectedRow) {
         details = [...body].filter(item => `${item.id}:${item.phone}` === selectedRow)[0]
-        delete details.address;
+        // delete details.address;
     }
 
     const checkOuterClick = e => {
         const node = e.target;
-        if (!node.closest('td')) setSelectedRow(null);
+        console.log(node);
+        
+        console.log(wrapperRef.current.contains(node));
+        
+        // if (!node.closest('td')) setSelectedRow(null);
     }   
 
     useEffect(() => {  
@@ -56,50 +61,34 @@ export default function Table({headerItems, bodyItems, rowsPerPage}) {
     // 
 
     const hash = headerItems.join(':');
-    const bodyRows = body.map( item => {
-        return (            
-            <tr 
-                key={uuid()} 
-                className={clsx(classes.table__row, selectedRow === `${item.id}:${item.phone}` && classes['table__row--selected'])} 
-                onClick={e => setSelectedRow(`${item.id}:${item.phone}`)}
-            >
-                {
-                    Object.entries(item).map( ([key, value]) => {
-                        if (hash.includes(key)) {
-                            return (
-                                <td 
-                                    key={uuid()} 
-                                    className={classes.table__cell}
-                                >
-                                    {value}
-                                </td>
-                            )
-                        }
-                    })
-                }
-            </tr>
-        )
-    })
     
     return (
-        <div className={classes.table__wrapper}>
+        <div 
+            className={classes.table__wrapper} 
+            ref={wrapperRef}
+        >
             <TableFilter setFilter={setFilter}/>
-            <table className={classes.table}>
-                <TableHeader 
-                    items={headerItems}
-                    setSortByField={setSortByField}
-                    sortByField={sortByField}
-                />
-                <tbody>
-                        {bodyRows}
-                </tbody>
-            </table>
+            <div className={classes.table__wrapper__inner}>
+                <table className={classes.table}>
+                    <TableHeader 
+                        items={headerItems}
+                        setSortByField={setSortByField}
+                        sortByField={sortByField}
+                    />
+                    <TableBody 
+                        body={body}
+                        hash={hash}
+                        setSelectedRow={setSelectedRow}
+                        selectedRow={selectedRow}
+                    />
+                </table>
+                {selectedRow && <TableDetails details={details} />}
+            </div>
             <TablePagination 
                 qty={pages}
                 currPage={currPage}
                 setCurrPage={setCurrPage}
             />
-            {selectedRow && <TableDetails details={details} />}
         </div>
     );
 };
