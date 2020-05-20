@@ -6,62 +6,77 @@ import TablePagination from '../TablePagination/TablePagination';
 import TableFilter from '../TableFilter/TableFilter';
 import TableDetails from '../TableDetails/TableDetails';
 import TableBody from '../TableBody/TableBody';
+import withTableContext from '../../hoc/withTableContext';
 
 
-export default function Table({headerItems, bodyItems, rowsPerPage}) {    
-    const [currPage, setCurrPage] = useState(1);
-    const [sortByField, setSortByField] = useState({});
-    const [filter, setFilter] = useState();
-    const [selectedRow, setSelectedRow] = useState();
-    const wrapperRef = useRef(null);
-    const sort = useSort();
+function Table({
+            headerItems, 
+            bodyItems, 
+            rowsPerPage,
+            setFilter,
+            setSortByField,
+            sortByField,
+            body,
+            hash,
+            setSelectedRow,
+            selectedRow,
+            details,
+            qty,
+            currPage,
+            setCurrPage
+        }) {    
+    // const [currPage, setCurrPage] = useState(1);
+    // const [sortByField, setSortByField] = useState({});
+    // const [filter, setFilter] = useState();
+    // const [selectedRow, setSelectedRow] = useState();
+    // const wrapperRef = useRef(null);
+    // const sort = useSort();
 
-    console.log(wrapperRef);
     
-    if (filter) {
-        bodyItems = bodyItems.filter( item => {
-            for (let key of Object.values(item)) {
-                if (String(key).toLowerCase().includes(filter.toLowerCase())) {
-                    return item;
-                }
-            }
-        })
-    }    
+    // if (filter) {
+    //     bodyItems = bodyItems.filter( item => {
+    //         for (let key of Object.values(item)) {
+    //             if (String(key).toLowerCase().includes(filter.toLowerCase())) {
+    //                 return item;
+    //             }
+    //         }
+    //     })
+    // }    
     
-    const pages = Math.ceil(bodyItems.length/rowsPerPage);
+    // const pages = Math.ceil(bodyItems.length/rowsPerPage);
 
-    if (sortByField.field) {
-        sort(bodyItems, sortByField.field, sortByField.type)
-    }
+    // if (sortByField.field) {
+    //     sort(bodyItems, sortByField.field, sortByField.type)
+    // }
 
-    let body = [...bodyItems].splice(rowsPerPage * (currPage - 1), rowsPerPage); 
+    // let body = [...bodyItems].splice(rowsPerPage * (currPage - 1), rowsPerPage); 
 
-    // 
-    let details = null;
+    // // 
+    // let details = null;
 
-    if (selectedRow) {
-        details = [...body].filter(item => `${item.id}:${item.phone}` === selectedRow)[0]
-        // delete details.address;
-    }
+    // if (selectedRow) {
+    //     details = [...body].filter(item => `${item.id}:${item.phone}` === selectedRow)[0]
+    //     // delete details.address;
+    // }
 
-    const checkOuterClick = e => {
-        const node = e.target;        
-        // if (!node.closest('td')) setSelectedRow(null);
-    }   
+    // const checkOuterClick = e => {
+    //     const node = e.target;        
+    //     // if (!node.closest('td')) setSelectedRow(null);
+    // }   
 
-    useEffect(() => {  
-        document.addEventListener('click', checkOuterClick) 
-        return () =>  document.removeEventListener('click', checkOuterClick)
-    })
+    // useEffect(() => {  
+    //     document.addEventListener('click', checkOuterClick) 
+    //     return () =>  document.removeEventListener('click', checkOuterClick)
+    // })
 
-    // 
+    // // 
 
-    const hash = headerItems.join(':');
+    // const hash = headerItems.join(':');
     
     return (
         <div 
             className={classes.table__wrapper} 
-            ref={wrapperRef}
+            // ref={wrapperRef}
         >
             <TableFilter setFilter={setFilter}/>
             <div className={classes.table__wrapper__inner}>
@@ -81,10 +96,13 @@ export default function Table({headerItems, bodyItems, rowsPerPage}) {
                 {selectedRow && <TableDetails details={details} />}
             </div>
             <TablePagination 
-                qty={pages}
+                qty={qty}
                 currPage={currPage}
                 setCurrPage={setCurrPage}
             />
         </div>
     );
 };
+
+
+export default withTableContext(Table);
