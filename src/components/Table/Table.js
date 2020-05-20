@@ -45,11 +45,7 @@ export default function Table({headerItems, bodyItems, rowsPerPage}) {
     }
 
     const checkOuterClick = e => {
-        const node = e.target;
-        console.log(node);
-        
-        console.log(wrapperRef.current.contains(node));
-        
+        const node = e.target;        
         // if (!node.closest('td')) setSelectedRow(null);
     }   
 
