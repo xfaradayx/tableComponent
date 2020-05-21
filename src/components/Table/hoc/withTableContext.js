@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSort } from '../../src/hooks/hooks';
+import { useSort } from '../../../hooks/hooks';
 
 
-const withTableContext = Component => ({headerItems, bodyItems, rowsPerPage, ...props}) =>  {
+const withTableContext = Component => ({headerItems, bodyItems, rowsPerPage}) =>  {
     const [currPage, setCurrPage] = useState(1);
     const [sortByField, setSortByField] = useState({});
     const [filter, setFilter] = useState();
     const [selectedRow, setSelectedRow] = useState();
-    const wrapperRef = useRef(null);
     const sort = useSort();
 
-    
     if (filter) {
         bodyItems = bodyItems.filter( item => {
             for (let key of Object.values(item)) {
@@ -27,14 +25,13 @@ const withTableContext = Component => ({headerItems, bodyItems, rowsPerPage, ...
         sort(bodyItems, sortByField.field, sortByField.type)
     }
 
-    let body = [...bodyItems].splice(rowsPerPage * (currPage - 1), rowsPerPage); 
+    const body = [...bodyItems].splice(rowsPerPage * (currPage - 1), rowsPerPage); 
 
     // 
     let details = null;
 
     if (selectedRow) {
-        details = [...body].filter(item => `${item.id}:${item.phone}` === selectedRow)[0]
-        // delete details.address;
+        details = body.filter(item => `${item.id}:${item.phone}` === selectedRow)[0]
     }
 
     const checkOuterClick = e => {
@@ -52,9 +49,6 @@ const withTableContext = Component => ({headerItems, bodyItems, rowsPerPage, ...
     return (
         <Component 
             headerItems={headerItems}
-            bodyItems={bodyItems}
-            rowsPerPage={rowsPerPage}
-            {...props}  
             setFilter={setFilter}
             setSortByField={setSortByField}
             sortByField={sortByField}

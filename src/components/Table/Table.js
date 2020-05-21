@@ -1,82 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSort } from '../../hooks/hooks';
+import React from 'react';
 import TableHeader from '../TableHeader/TableHeader';
 import classes from './style.module.scss';
 import TablePagination from '../TablePagination/TablePagination';
 import TableFilter from '../TableFilter/TableFilter';
 import TableDetails from '../TableDetails/TableDetails';
 import TableBody from '../TableBody/TableBody';
-import withTableContext from '../../hoc/withTableContext';
-
+import withTableContext from './hoc/withTableContext';
 
 function Table({
-            headerItems, 
-            bodyItems, 
-            rowsPerPage,
-            setFilter,
-            setSortByField,
-            sortByField,
-            body,
-            hash,
-            setSelectedRow,
-            selectedRow,
-            details,
-            qty,
-            currPage,
-            setCurrPage
-        }) {    
-    // const [currPage, setCurrPage] = useState(1);
-    // const [sortByField, setSortByField] = useState({});
-    // const [filter, setFilter] = useState();
-    // const [selectedRow, setSelectedRow] = useState();
-    // const wrapperRef = useRef(null);
-    // const sort = useSort();
-
-    
-    // if (filter) {
-    //     bodyItems = bodyItems.filter( item => {
-    //         for (let key of Object.values(item)) {
-    //             if (String(key).toLowerCase().includes(filter.toLowerCase())) {
-    //                 return item;
-    //             }
-    //         }
-    //     })
-    // }    
-    
-    // const pages = Math.ceil(bodyItems.length/rowsPerPage);
-
-    // if (sortByField.field) {
-    //     sort(bodyItems, sortByField.field, sortByField.type)
-    // }
-
-    // let body = [...bodyItems].splice(rowsPerPage * (currPage - 1), rowsPerPage); 
-
-    // // 
-    // let details = null;
-
-    // if (selectedRow) {
-    //     details = [...body].filter(item => `${item.id}:${item.phone}` === selectedRow)[0]
-    //     // delete details.address;
-    // }
-
-    // const checkOuterClick = e => {
-    //     const node = e.target;        
-    //     // if (!node.closest('td')) setSelectedRow(null);
-    // }   
-
-    // useEffect(() => {  
-    //     document.addEventListener('click', checkOuterClick) 
-    //     return () =>  document.removeEventListener('click', checkOuterClick)
-    // })
-
-    // // 
-
-    // const hash = headerItems.join(':');
+    headerItems, 
+    body,
+    hash,
+    details,
+    qty,
+    currPage,
+    setFilter,
+    setSortByField,
+    sortByField,
+    setSelectedRow,
+    selectedRow,
+    setCurrPage
+}) {    
     
     return (
         <div 
             className={classes.table__wrapper} 
-            // ref={wrapperRef}
         >
             <TableFilter setFilter={setFilter}/>
             <div className={classes.table__wrapper__inner}>
